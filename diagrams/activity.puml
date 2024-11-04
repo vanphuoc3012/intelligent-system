@@ -1,0 +1,16 @@
+@startuml activity
+start
+:Customer provides data;
+:Data Analyst collects and preprocesses data;
+:Data Analyst splits data into training and testing sets;
+:Data Analyst trains decision tree model;
+:Model classifies customers as churning or not churning;
+:Data Analyst evaluates model performance;
+if (Model performance acceptable?) then (yes)
+  :Deploy model to production;
+else (no)
+  :Tune model hyperparameters;
+  :Retrain model;
+endif
+stop
+@enduml

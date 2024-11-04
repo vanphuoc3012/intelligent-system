@@ -1,0 +1,23 @@
+@startuml Sequence Diagram
+title Sequence Diagram for Customer Classification
+
+actor User
+participant "User Interface\n(Web App)" as UI
+participant "Classification API" as API
+participant "Preprocessing Module" as Preprocess
+participant "Decision Tree Model" as Model
+
+User -> UI : Enter customer data
+activate UI
+UI -> API : Send data
+activate API
+API -> Preprocess : Preprocess data
+activate Preprocess
+Preprocess -> API : Return cleaned data
+API -> Model : Classify data
+activate Model
+Model -> API : Return classification
+API -> UI : Send results
+UI -> User : Display classification
+
+@enduml

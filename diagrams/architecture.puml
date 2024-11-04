@@ -1,0 +1,29 @@
+@startuml architecture
+!pragma svek_trace
+
+title System Architecture Diagram
+
+component "User Interface\n(Web App/Mobile App)" as UI
+component "Data Storage\n(Database)" as DB
+component "Data Preprocessing\nModule" as Preprocess
+component "Model Training\nModule" as Training
+component "Model Evaluation\nModule" as Evaluation
+component "Model Deployment\nModule" as Deployment
+component "Classification API" as API
+
+UI -r-> API : "Input customer data"
+API -d-> Preprocess : "Send data for preprocessing"
+API -l-> UI : "Classification results"
+Preprocess -l-> Training : "Cleaned data for training"
+
+Training --> Evaluation : "Trained model"
+Evaluation --> Deployment : "Validated model"
+
+
+DB -d-> Preprocess : "Raw data"
+Preprocess -d-> DB : "Preprocessed data"
+Training -d-> DB : "Model parameters"
+
+Deployment -u-> API : "Deployed model"
+
+@enduml
