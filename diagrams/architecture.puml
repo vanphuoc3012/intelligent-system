@@ -11,19 +11,18 @@ component "Model Evaluation\nModule" as Evaluation
 component "Model Deployment\nModule" as Deployment
 component "Classification API" as API
 
-UI -r-> API : "Input customer data"
+UI -d-> API : "Input customer data"
+API -u-> UI : "Classification results"
+
 API -d-> Preprocess : "Send data for preprocessing"
-API -l-> UI : "Classification results"
-Preprocess -l-> Training : "Cleaned data for training"
-
-Training --> Evaluation : "Trained model"
-Evaluation --> Deployment : "Validated model"
-
-
-DB -d-> Preprocess : "Raw data"
 Preprocess -d-> DB : "Preprocessed data"
+DB -u-> Preprocess : "Raw data"
+
+Preprocess -r-> Training : "Cleaned data for training"
+Training -r-> Evaluation : "Trained model"
+Evaluation -r-> Deployment : "Validated model"
+Deployment -u-> API : "Deployed model"
 Training -d-> DB : "Model parameters"
 
-Deployment -u-> API : "Deployed model"
 
 @enduml
