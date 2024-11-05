@@ -1,0 +1,15 @@
+@startuml usecase diagram
+title Usecase diagram
+left to right direction
+actor "Bank Staff" as staff
+actor "System" as system
+
+rectangle "Bank Customer Classification" {
+  usecase "View Classification Results" as view_results
+  usecase "Retrain Model" as retrain
+}
+
+staff --> view_results
+staff --> retrain
+system --> retrain
+@enduml

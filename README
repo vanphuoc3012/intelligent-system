@@ -1,0 +1,2 @@
+# Render PlantUML preview
+Install the PlantUML extension in VS Code.  Ensure Graphviz is installed and configured correctly.  Open a `.puml` file. The PlantUML preview should automatically render.  If not, try restarting VS Code or manually triggering a preview refresh.
