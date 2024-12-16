@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 
 class PredictRequest(BaseModel):
-    age: str
+    age: int
     experience: float
     income: float
     zipcode: int
