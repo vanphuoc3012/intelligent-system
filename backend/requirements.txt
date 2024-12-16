@@ -1,2 +1,6 @@
 fastapi[standard]
 uvicorn[standard]
+python-multipart
+scikit-learn==1.5.2
+pandas
+PyYAML>=6.0
