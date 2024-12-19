@@ -12,6 +12,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
+import TranscribeOutlinedIcon from "@mui/icons-material/TranscribeOutlined";
 import Avatar from "@mui/material/Avatar";
 import ListItemText from "@mui/material/ListItemText";
 import PersonIcon from "@mui/icons-material/Person";
@@ -170,6 +171,27 @@ const Header = ({ isLoading }) => {
                 }
               >
                 Prediction
+              </Button>
+            </Link>
+            <Link href="/transcribe" passHref>
+              <Button
+                color="primary"
+                size="small"
+                variant="text"
+                sx={{
+                  color: theme.palette.common.white,
+                  fontSize: theme.typography.subtitle1,
+                  fontWeight: "medium",
+                  mr: 2,
+                  "& svg": {
+                    mr: 0.5,
+                  },
+                }}
+                startIcon={
+                  <TranscribeOutlinedIcon style={{ height: 26, width: 26 }} />
+                }
+              >
+                Transcribe
               </Button>
             </Link>
             <Link href="/about" passHref>

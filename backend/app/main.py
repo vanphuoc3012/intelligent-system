@@ -220,4 +220,3 @@ async def get_counter():
 @app.get("/model-health")
 async def model_health():
     return {"alg": "DecisionTreeClassifier"}
- 
