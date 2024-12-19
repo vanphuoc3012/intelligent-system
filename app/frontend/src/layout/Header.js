@@ -49,8 +49,52 @@ const Header = ({ isLoading }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
     if (token) {
       setIsLoggedIn(true);
+      axios
+        .get("http://127.0.0.1:8000/user_info", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setEmail(response.data.email);
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 401 && refreshToken) {
+            // Try refreshing the token
+            axios
+              .post("http://127.0.0.1:8000/refresh", {
+                refresh_token: refreshToken,
+              })
+              .then((refreshResponse) => {
+                localStorage.setItem(
+                  "accessToken",
+                  refreshResponse.data.access_token
+                );
+                // Retry fetching user info with new token
+                return axios.get("http://127.0.0.1:8000/user_info", {
+                  headers: {
+                    Authorization: `Bearer ${refreshResponse.data.access_token}`,
+                  },
+                });
+              })
+              .then((response) => {
+                setEmail(response.data.email);
+              })
+              .catch((refreshError) => {
+                setIsLoggedIn(false);
+                console.error(
+                  "Error refreshing token or fetching user info:",
+                  refreshError
+                );
+              });
+          } else {
+            setIsLoggedIn(false);
+            console.error("Error fetching user info:", error);
+          }
+        });
     }
   }, []);
 

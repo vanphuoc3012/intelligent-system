@@ -138,6 +138,12 @@ export default function SignUp() {
     event.preventDefault();
     if (validateForm()) {
       try {
+        const response = await axios.post("http://127.0.0.1:8000/register", {
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+        });
         handleSuccess();
       } catch (error) {
         setErrorMessage("Email is already exist!");

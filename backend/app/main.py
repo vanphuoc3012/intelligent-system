@@ -10,6 +10,8 @@ from fastapi import (
     Form,
 )
 from sqlalchemy.orm import Session
+from config import settings
+from datetime import timedelta
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 from fastapi.responses import JSONResponse
@@ -218,3 +220,4 @@ async def get_counter():
 @app.get("/model-health")
 async def model_health():
     return {"alg": "DecisionTreeClassifier"}
+ 
