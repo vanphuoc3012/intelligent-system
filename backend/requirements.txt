@@ -4,3 +4,7 @@ python-multipart
 scikit-learn==1.5.2
 pandas
 PyYAML>=6.0
+SQLAlchemy
+passlib[bcrypt]
+python-jose[cryptography]
+python-dotenv

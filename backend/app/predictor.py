@@ -59,7 +59,7 @@ class Predicter(object):
     def __validate_input(self, customer: dict):
         for k in Predicter._required_columns:
             if k not in customer.keys():
-                logfactory.error(f"Require {k} is missing")
+                logger.error(f"Require {k} is missing")
                 return False
         return True
 
@@ -87,7 +87,6 @@ class Predicter(object):
 
         predict = self._model.predict(only_require_columns)
         df["predictResult"] = predict
-        df["predictResult"] = df["predictResult"].replace({0: False, 1: True})
 
         invalid_df = pd.DataFrame(invalid_customers)
         invalid_df["predictResult"] = "Not enough information"
