@@ -113,7 +113,6 @@ const Predict = ({ isLoading, setIsLoading }) => {
         Object.keys(csvData[0]).join(","), // Add headers
         ...csvData.map(row => Object.values(row).join(","))
       ].join("\n");
-
       const blob = new Blob([csvContent], { type: 'text/csv' });
       formData.append("file", blob, "customers.csv");
 
@@ -121,16 +120,21 @@ const Predict = ({ isLoading, setIsLoading }) => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        responseType: 'blob',
+        responseType: 'text',
       });
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'predicted_customers.csv');
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode.removeChild(link);
+      const lines = response.data.split("\n");
+      const headers = lines[0].split(",");
+      const data = lines.slice(1).map(line => {
+        const values = line.split(",");
+        return headers.reduce((obj, header, index) => {
+          obj[header] = values[index];
+          return obj;
+        }, {});
+      });
+
+      localStorage.setItem('bulkResults', JSON.stringify(data));
+      router.push('/bulk_results');
     } catch (error) {
       console.error("Error during prediction:", error);
     } finally {
