@@ -1,45 +1,17 @@
-# Render PlantUML preview
+# Predicting Personal Loan Acceptance with Decision Trees
 
-Install the PlantUML extension in VS Code.  Ensure Graphviz is installed and configured correctly.  Open a `.puml` file. The PlantUML preview should automatically render.  If not, try restarting VS Code or manually triggering a preview refresh.
+This project focuses on predicting personal loan acceptance using decision tree models. It consists of two main components:
 
-# Explain
+# Backend:
 
-## Interconnections and Data Flow with Examples
-***UI to API:***
+- Model Training: Includes code for training the predictive model. Find it here: [link](./backend/app/training/bank_customer_classification_training.ipynb)
 
-Example: A bank employee inputs customer data on the web app, which sends the data via HTTP POST to the Classification API.
+- API Development: Backend APIs are implemented using Python and FastAPI.
 
-***API to Preprocess:***
+# Front end:
 
-Example: The API receives the data and calls the preprocessing module to clean and transform it.
+- The user interface for the application is developed using Next.js.
 
-***Preprocess to Training (During Model Development):***
+# Diagram
 
-Example: The preprocessed historical data is sent to the training module to build the initial model.
-
-***Training to Evaluation:***
-
-Example: The trained model is evaluated on test data to check its accuracy.
-
-***Evaluation to Deployment:***
-
-Example: If the model meets performance criteria, it's passed to the deployment module.
-
-***Deployment to API:***
-
-Example: The deployed model is integrated into the API for real-time predictions.
-
-***API to UI:***
-
-Example: The API sends the classification result back to the UI to display to the user.
-
-***DB Interaction:***
-
-***Raw Data to Preprocess:***
-The database provides raw customer data for preprocessing during training.
-
-***Preprocessed Data to DB:***
-The module saves cleaned data back to the database for future use.
-
-***Training to DB:***
-The model parameters or the trained model are saved for versioning.
+- Contains detailed information about the project architecture and operational flow diagrams.
