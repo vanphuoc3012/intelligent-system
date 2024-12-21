@@ -9,25 +9,41 @@ import threading
 # logger = logfactory.get_logger()
 logger = logging.getLogger(__name__)
 
+feature_column_mapping = {
+    "Age": "age",
+    "Income": "income",
+    "ZIP Code": "zipcode",
+    "Family": "family",
+    "CCAvg": "ccAvg",
+    "Education": "education",
+    "Mortgage": "mortgage",
+    "Securities Account": "securitiesAccount",
+    "CD Account": "cdAccount",
+    "Online": "online",
+    "CreditCard": "creditCard",
+    "Experience": "experience",
+    "id": "ID",
+}
+
+columns_feature_mapping = {
+    "age": "Age",
+    "income": "Income",
+    "zipcode": "ZIP Code",
+    "family": "Family",
+    "ccAvg": "CCAvg",
+    "education": "Education",
+    "mortgage": "Mortgage",
+    "securitiesAccount": "Securities Account",
+    "cdAccount": "CD Account",
+    "online": "Online",
+    "creditCard": "CreditCard",
+    "experience": "Experience",
+    "id": "ID",
+}
 
 class Predicter(object):
-    _column_mapping = {
-        "age": "Age",
-        "income": "Income",
-        "zipcode": "ZIP Code",
-        "family": "Family",
-        "ccAvg": "CCAvg",
-        "education": "Education",
-        "mortgage": "Mortgage",
-        "securitiesAccount": "Securities Account",
-        "cdAccount": "CD Account",
-        "online": "Online",
-        "creditCard": "CreditCard",
-        "experience": "Experience",
-        "id": "ID",
-    }
-    _required_columns = ["income", "education", "family", "ccAvg", "cdAccount"]
-    _desired_columns_order = []
+    
+    _required_columns = {"Income", "Education", "Family", "CCAvg", "CD Account",}
 
     def __init__(self):
         logger.info(f"Loading model...")
@@ -57,10 +73,15 @@ class Predicter(object):
         return self.predict([customer], model)
 
     def __validate_input(self, customer: dict):
+        missing_inputs = []
         for k in Predicter._required_columns:
-            if k not in customer.keys():
-                logger.error(f"Require {k} is missing")
-                return False
+            if k in customer.keys() or feature_column_mapping[k] in customer.keys():
+                continue
+            missing_inputs.append(k)
+        if len(missing_inputs) > 0:
+            logger.error(f"Missing inputs: {missing_inputs}")
+            logger.error(f"Customer: {customer}")
+            return False
         return True
 
     def __partition_customer__(self, customers):
@@ -81,9 +102,14 @@ class Predicter(object):
         self.__increase_predict_count(len(valid_customers))
 
         df = pd.DataFrame(customers)
-        only_require_columns = df.rename(columns=self._column_mapping)[
-            self._desired_columns_order
-        ]
+        
+        filtered_rename_dict = {k: v for k, v in columns_feature_mapping.items() if k in df.columns}
+        logger.info(f'Found columns can be rename: {filtered_rename_dict}')
+        
+        if filtered_rename_dict:
+            only_require_columns = df.rename(columns=filtered_rename_dict)[self._desired_columns_order]
+        else:
+            only_require_columns = df[self._desired_columns_order]
 
         predict = self._model.predict(only_require_columns)
         df["predictResult"] = predict

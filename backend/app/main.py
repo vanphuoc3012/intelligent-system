@@ -32,21 +32,13 @@ import io
 from fastapi.responses import StreamingResponse
 from fastapi.logger import logger
 
-# gunicorn_logger  = logging.getLogger('uvicorn.error')
-# logger.handlers = gunicorn_logger.handlers
-# logger.setLevel(logging.DEBUG)
-# stdout_handler = logging.StreamHandler(sys.stdout)
-# logger.addHandler(stdout_handler)
-# logger.info("API is starting up")
-# logger.info(uvicorn.Config.asgi_version)
-
 # Create all database tables
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(title='Predicting Personal Loan Acceptance With Decision Trees')
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Adjust this to your frontend's URL
+    allow_origins=["*"],  # Adjust this to your frontend's URL
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -174,7 +166,7 @@ async def predict(predictRequest: PredictRequest, response: Response):
             return predict_results[0]
         return invalid_inputs[0]
     except Exception as e:
-        logfactory.exception(e)
+        logger.exception(e)
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"error": str(e)}
 
