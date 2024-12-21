@@ -1,0 +1,39 @@
+@startuml Model Deployment Flow
+
+skinparam componentStyle uml2
+skinparam ActivityBackgroundColor LightBlue
+skinparam ActivityBorderColor Blue
+
+start
+
+:Train & Validate Model;
+
+if (Model Meets Quality Thresholds?) then (yes)
+    :Store Model & Metadata;
+    note right
+        - Version
+        - Performance Metrics
+        - Training Parameters
+    end note
+else (no)
+    :Return to Training;
+    end
+endif
+
+:Deploy to Production API;
+
+fork
+    :Process Customer Requests;
+fork again
+    :Monitor Performance;
+end fork
+
+:Collect Business Feedback;
+
+:Update Training Data;
+
+:Trigger Retraining;
+
+stop
+
+@enduml

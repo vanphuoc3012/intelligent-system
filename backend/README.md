@@ -13,6 +13,15 @@ cd backend/app
 uvicorn main:app --reload --log-config conf/log_conf.yaml --use-colors
 ```
 
+Build docker image
+
+```bash
+cd backend
+docker build -t dt-backend .
+docker tag dt-backend vanphuoc3012/dt-backend:latest
+docker push vanphuoc3012/dt-backend:latest
+```
+
 Xem API docs tại: localhost:8000/docs
 
 # Train model:

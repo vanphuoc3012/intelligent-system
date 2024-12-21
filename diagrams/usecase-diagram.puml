@@ -2,7 +2,8 @@
 title Usecase diagram
 left to right direction
 actor "Bank Staff" as staff
-actor "System" as system
+actor "System/Data Scientist" as system
+actor "External System" as external_system
 
 rectangle "Bank Customer Classification" {
   usecase "View Classification Results" as view_results
@@ -10,6 +11,6 @@ rectangle "Bank Customer Classification" {
 }
 
 staff --> view_results
-staff --> retrain
+external_system --> view_results
 system --> retrain
 @enduml
